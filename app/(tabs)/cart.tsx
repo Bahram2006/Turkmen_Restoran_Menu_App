@@ -5,6 +5,7 @@ import {
   FlatList,
   TouchableOpacity,
   Alert,
+  useColorScheme,
 } from "react-native";
 import { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
@@ -16,6 +17,21 @@ export default function CartScreen() {
 
   const router = useRouter();
 
+  const theme = useColorScheme();
+  const isDark = theme === "dark";
+
+  // 🎨 COLORS (CLEAN WAY)
+  const colors = {
+    background: isDark ? "#121212" : "#ffffff",
+    text: isDark ? "#ffffff" : "#000000",
+    card: isDark ? "#1e1e1e" : "#f2f2f2",
+    gray: "gray",
+    green: "green",
+    red: "#d62828",
+    black: "#000",
+    white: "#fff",
+  };
+
   const handleOrder = () => {
     clearCart();
     Alert.alert("Success", "Your order has been placed!");
@@ -23,40 +39,56 @@ export default function CartScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>🛒 Your Cart</Text>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      
+      <Text style={[styles.title, { color: colors.text }]}>
+        🛒 Your Cart
+      </Text>
 
       {cart.length === 0 ? (
-        <Text style={styles.empty}>Cart is empty</Text>
+        <Text style={[styles.empty, { color: colors.gray }]}>
+          Cart is empty
+        </Text>
       ) : (
         <>
           <FlatList
             data={cart}
             keyExtractor={(_, index) => index.toString()}
             renderItem={({ item, index }) => (
-              <View style={styles.card}>
-                <Text style={styles.name}>{item.name}</Text>
-                <Text style={styles.price}>${item.price}</Text>
+              <View style={[styles.card, { backgroundColor: colors.card }]}>
+                
+                <Text style={[styles.name, { color: colors.text }]}>
+                  {item.name}
+                </Text>
+
+                <Text style={[styles.price, { color: colors.green }]}>
+                  ${item.price}
+                </Text>
 
                 <TouchableOpacity
-                  style={styles.removeBtn}
+                  style={[styles.removeBtn, { backgroundColor: colors.black }]}
                   onPress={() => removeFromCart(index)}
                 >
-                  <Text style={styles.removeText}>Remove</Text>
+                  <Text style={[styles.removeText, { color: colors.white }]}>
+                    Remove
+                  </Text>
                 </TouchableOpacity>
+
               </View>
             )}
           />
 
-          <Text style={styles.total}>
+          <Text style={[styles.total, { color: colors.text }]}>
             Total: ${getTotal().toFixed(2)}
           </Text>
 
           <TouchableOpacity
-            style={styles.checkoutBtn}
+            style={[styles.checkoutBtn, { backgroundColor: colors.red }]}
             onPress={handleOrder}
           >
-            <Text style={styles.checkoutText}>Order Now</Text>
+            <Text style={[styles.checkoutText, { color: colors.white }]}>
+              Order Now
+            </Text>
           </TouchableOpacity>
         </>
       )}
@@ -68,7 +100,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#fff",
   },
   title: {
     fontSize: 28,
@@ -77,13 +108,11 @@ const styles = StyleSheet.create({
   },
   empty: {
     fontSize: 18,
-    color: "gray",
     textAlign: "center",
     marginTop: 50,
   },
   card: {
     padding: 15,
-    backgroundColor: "#f2f2f2",
     borderRadius: 12,
     marginBottom: 10,
   },
@@ -92,19 +121,15 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   price: {
-    color: "green",
     marginTop: 5,
   },
   removeBtn: {
     marginTop: 10,
-    backgroundColor: "black",
     padding: 8,
     borderRadius: 6,
     alignItems: "center",
   },
-  removeText: {
-    color: "#fff",
-  },
+  removeText: {},
   total: {
     fontSize: 20,
     fontWeight: "bold",
@@ -112,13 +137,11 @@ const styles = StyleSheet.create({
   },
   checkoutBtn: {
     marginTop: 20,
-    backgroundColor: "#d62828",
     padding: 15,
     borderRadius: 10,
     alignItems: "center",
   },
   checkoutText: {
-    color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
   },
