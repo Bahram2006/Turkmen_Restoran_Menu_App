@@ -1,50 +1,104 @@
-# Welcome to your Expo app 👋
+# 🍔 Burger King Mobile App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A modern and user-friendly **Food Delivery Mobile Application** built with React Native and Expo Router.
 
-## Get started
+This app allows users to browse meals, search for food, view product details, and add items to cart — just like a real-world food ordering platform.
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+## 📱 Features
 
-2. Start the app
+✨ Clean and modern UI  
+🔍 Search functionality  
+🍔 Category-based filtering (Burgers, Drinks, Desserts)  
+📄 Product Detail Screen  
+🛒 Add to Cart system  
+⚡ Smooth animations  
+🌙 Dark mode support  
+🚀 Fast performance with Expo  
 
-   ```bash
-   npx expo start
-   ```
+---
 
-In the output, you'll find options to open the app in a
+## 🛠 Tech Stack
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- React Native
+- Expo
+- Expo Router
+- Context API (State Management)
+- TypeScript
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+---
 
-## Get a fresh project
+## 📂 Project Structure
 
-When you're ready, run:
+```
+app/
+│── index.tsx          # Home Screen  
+│── product/  
+│   └── [id].tsx      # Product Detail Screen  
 
-```bash
-npm run reset-project
+context/  
+│── CartContext.tsx   # Cart Logic  
+
+assets/  
+│── images/           # Food Images  
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## 🚀 Getting Started
 
-To learn more about developing your project with Expo, look at the following resources:
+### 1. Clone the repository
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```
+git clone https://github.com/your-username/burger-king-app.git
+```
 
-## Join the community
+### 2. Install dependencies
 
-Join our community of developers creating universal apps.
+```
+npm install
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### 3. Run the app
+
+```
+npx expo start
+```
+
+---
+
+## 📸 Screenshots
+
+(Add screenshots here later)
+
+---
+
+## 💡 Future Improvements
+
+- ❤️ Favorites system  
+- 🔐 Authentication (Firebase)  
+- 💳 Payment integration  
+- 🌐 Backend API integration  
+- 📦 Order history  
+
+---
+
+## 👨‍💻 Developer
+
+Built with passion by **Your Name**
+
+---
+
+## 📬 Contact
+
+If you want a custom mobile app like this:
+
+📧 Email: your@email.com  
+🌐 Portfolio: your-portfolio-link  
+
+---
+
+## ⭐️ Show your support
+
+Give a ⭐️ if you like this project!
