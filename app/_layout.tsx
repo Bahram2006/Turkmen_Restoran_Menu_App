@@ -4,7 +4,7 @@ import { CartProvider } from "../context/CartContext";
 export default function RootLayout() {
   return (
     <CartProvider>
-      <Stack />
+      <Stack screenOptions={{ headerShown: false }} />
     </CartProvider>
   );
 }
