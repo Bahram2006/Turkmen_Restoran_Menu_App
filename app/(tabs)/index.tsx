@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { useContext, useRef, useState } from "react";
 import { CartContext } from "../../context/CartContext";
+import { useRouter } from "expo-router";
 
 // 🔥 CATEGORIES
 const categories = ["Burgers", "Drinks", "Desserts"];
@@ -67,7 +68,7 @@ export default function HomeScreen() {
 
   // 🔥 FILTER
   const filteredProducts = products.filter(
-    (item) => item.category === selectedCategory
+    (item) => item.category === selectedCategory,
   );
 
   // 🔥 ANIMATION FIX
@@ -87,6 +88,8 @@ export default function HomeScreen() {
       }),
     ]).start();
   };
+
+  const router = useRouter();
 
   return (
     <View style={styles.container}>
@@ -123,7 +126,20 @@ export default function HomeScreen() {
         contentContainerStyle={{ paddingTop: 20 }}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
-          <View style={styles.card}>
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() =>
+              router.push({
+                pathname: "/product/[id]",
+                params: {
+                  id: item.id,
+                  name: item.name,
+                  price: item.price,
+                  image: Image.resolveAssetSource(item.image).uri,
+                },
+              })
+            }
+          >
             <Image source={item.image} style={styles.image} />
 
             <Text style={styles.name}>{item.name}</Text>
@@ -140,7 +156,7 @@ export default function HomeScreen() {
                 <Text style={styles.buttonText}>Add to Cart</Text>
               </TouchableOpacity>
             </Animated.View>
-          </View>
+          </TouchableOpacity>
         )}
       />
     </View>
