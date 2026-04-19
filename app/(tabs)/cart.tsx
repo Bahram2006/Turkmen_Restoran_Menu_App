@@ -1,4 +1,10 @@
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
 
@@ -31,9 +37,11 @@ export default function CartScreen() {
             )}
           />
 
-          <Text style={styles.total}>
-            Total: ${getTotal().toFixed(2)}
-          </Text>
+          <Text style={styles.total}>Total: ${getTotal().toFixed(2)}</Text>
+
+          <TouchableOpacity style={styles.checkoutBtn}>
+            <Text style={styles.checkoutText}>Order Now</Text>
+          </TouchableOpacity>
         </>
       )}
     </View>
@@ -84,4 +92,16 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 20,
   },
+  checkoutBtn: {
+  marginTop: 20,
+  backgroundColor: "#d62828",
+  padding: 15,
+  borderRadius: 10,
+  alignItems: "center",
+},
+checkoutText: {
+  color: "#fff",
+  fontSize: 16,
+  fontWeight: "bold",
+},
 });
