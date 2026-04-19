@@ -7,9 +7,11 @@ import {
 } from "react-native";
 import { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
+import { useRouter } from "expo-router";
 
 export default function CartScreen() {
   const { cart, removeFromCart, getTotal } = useContext(CartContext);
+  const router = useRouter();
 
   return (
     <View style={styles.container}>
@@ -39,7 +41,10 @@ export default function CartScreen() {
 
           <Text style={styles.total}>Total: ${getTotal().toFixed(2)}</Text>
 
-          <TouchableOpacity style={styles.checkoutBtn}>
+          <TouchableOpacity
+            style={styles.checkoutBtn}
+            onPress={() => router.push("/order-success")}
+          >
             <Text style={styles.checkoutText}>Order Now</Text>
           </TouchableOpacity>
         </>
@@ -93,15 +98,15 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   checkoutBtn: {
-  marginTop: 20,
-  backgroundColor: "#d62828",
-  padding: 15,
-  borderRadius: 10,
-  alignItems: "center",
-},
-checkoutText: {
-  color: "#fff",
-  fontSize: 16,
-  fontWeight: "bold",
-},
+    marginTop: 20,
+    backgroundColor: "#d62828",
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  checkoutText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
 });
