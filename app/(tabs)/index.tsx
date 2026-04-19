@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   Animated,
+  TextInput,
 } from "react-native";
 import { useContext, useRef, useState } from "react";
 import { CartContext } from "../../context/CartContext";
@@ -14,7 +15,7 @@ import { useRouter } from "expo-router";
 // 🔥 CATEGORIES
 const categories = ["Burgers", "Drinks", "Desserts"];
 
-// 🔥 PRODUCTS (UPDATED)
+// 🔥 PRODUCTS
 const products = [
   {
     id: "1",
@@ -62,16 +63,20 @@ const products = [
 
 export default function HomeScreen() {
   const { addToCart } = useContext(CartContext);
+  const router = useRouter();
 
   // 🔥 STATE
   const [selectedCategory, setSelectedCategory] = useState("Burgers");
+  const [search, setSearch] = useState("");
 
-  // 🔥 FILTER
+  // 🔥 FILTER + SEARCH
   const filteredProducts = products.filter(
-    (item) => item.category === selectedCategory,
+    (item) =>
+      item.category === selectedCategory &&
+      item.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  // 🔥 ANIMATION FIX
+  // 🔥 ANIMATION
   const scale = useRef(new Animated.Value(1)).current;
 
   const animatePress = () => {
@@ -89,12 +94,18 @@ export default function HomeScreen() {
     ]).start();
   };
 
-  const router = useRouter();
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>🍔 Burger King</Text>
       <Text style={styles.subtitle}>Choose your favorite meal</Text>
+
+      {/* 🔍 SEARCH */}
+      <TextInput
+        placeholder="Search food..."
+        value={search}
+        onChangeText={setSearch}
+        style={styles.input}
+      />
 
       {/* 🔥 CATEGORIES */}
       <View style={styles.categories}>
@@ -119,32 +130,34 @@ export default function HomeScreen() {
         ))}
       </View>
 
-      {/* 🔥 PRODUCT LIST */}
+      {/* 🔥 LIST */}
       <FlatList
         data={filteredProducts}
         keyExtractor={(item) => item.id}
         contentContainerStyle={{ paddingTop: 20 }}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.card}
-            onPress={() =>
-              router.push({
-                pathname: "/product/[id]",
-                params: {
-                  id: item.id,
-                  name: item.name,
-                  price: item.price,
-                  image: Image.resolveAssetSource(item.image).uri,
-                },
-              })
-            }
-          >
-            <Image source={item.image} style={styles.image} />
+          <View style={styles.card}>
+            {/* 🔥 CLICK → DETAIL */}
+            <TouchableOpacity
+              onPress={() =>
+                router.push({
+                  pathname: "/product/[id]",
+                  params: {
+                    id: item.id,
+                    name: item.name,
+                    price: item.price,
+                    image: Image.resolveAssetSource(item.image).uri,
+                  },
+                })
+              }
+            >
+              <Image source={item.image} style={styles.image} />
+              <Text style={styles.name}>{item.name}</Text>
+              <Text style={styles.price}>${item.price}</Text>
+            </TouchableOpacity>
 
-            <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.price}>${item.price}</Text>
-
+            {/* 🔥 ADD TO CART */}
             <Animated.View style={{ transform: [{ scale }] }}>
               <TouchableOpacity
                 style={styles.button}
@@ -156,14 +169,14 @@ export default function HomeScreen() {
                 <Text style={styles.buttonText}>Add to Cart</Text>
               </TouchableOpacity>
             </Animated.View>
-          </TouchableOpacity>
+          </View>
         )}
       />
     </View>
   );
 }
 
-// 🔥 STYLES
+// 🎨 STYLES
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -179,6 +192,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "gray",
     marginTop: 5,
+  },
+
+  // 🔍 SEARCH
+  input: {
+    marginTop: 15,
+    backgroundColor: "#f2f2f2",
+    padding: 12,
+    borderRadius: 10,
   },
 
   // 🔥 CATEGORY
@@ -206,21 +227,23 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 16,
     marginBottom: 15,
-    alignItems: "center",
   },
   image: {
     width: 120,
     height: 120,
+    alignSelf: "center",
     marginBottom: 10,
   },
   name: {
     fontSize: 18,
     fontWeight: "600",
+    textAlign: "center",
   },
   price: {
     marginTop: 5,
     fontSize: 16,
     color: "green",
+    textAlign: "center",
   },
 
   // 🔥 BUTTON
@@ -229,7 +252,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#d62828",
     padding: 10,
     borderRadius: 10,
-    width: "100%",
     alignItems: "center",
   },
   buttonText: {
