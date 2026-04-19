@@ -17,10 +17,12 @@ export const CartProvider = ({ children }: any) => {
     return cart.reduce((total, item) => total + item.price, 0);
   };
 
+  const clearCart = () => {
+    setCart([]);
+  };
+
   return (
-    <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, getTotal }}
-    >
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, getTotal, clearCart }}>
       {children}
     </CartContext.Provider>
   );

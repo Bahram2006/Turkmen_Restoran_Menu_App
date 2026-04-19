@@ -4,14 +4,23 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
 import { useRouter } from "expo-router";
 
 export default function CartScreen() {
-  const { cart, removeFromCart, getTotal } = useContext(CartContext);
+  const { cart, removeFromCart, getTotal, clearCart } =
+    useContext(CartContext);
+
   const router = useRouter();
+
+  const handleOrder = () => {
+    clearCart();
+    Alert.alert("Success", "Your order has been placed!");
+    router.push("/order-success");
+  };
 
   return (
     <View style={styles.container}>
@@ -23,7 +32,7 @@ export default function CartScreen() {
         <>
           <FlatList
             data={cart}
-            keyExtractor={(item, index) => index.toString()}
+            keyExtractor={(_, index) => index.toString()}
             renderItem={({ item, index }) => (
               <View style={styles.card}>
                 <Text style={styles.name}>{item.name}</Text>
@@ -39,11 +48,13 @@ export default function CartScreen() {
             )}
           />
 
-          <Text style={styles.total}>Total: ${getTotal().toFixed(2)}</Text>
+          <Text style={styles.total}>
+            Total: ${getTotal().toFixed(2)}
+          </Text>
 
           <TouchableOpacity
             style={styles.checkoutBtn}
-            onPress={() => router.push("/order-success")}
+            onPress={handleOrder}
           >
             <Text style={styles.checkoutText}>Order Now</Text>
           </TouchableOpacity>
@@ -67,6 +78,8 @@ const styles = StyleSheet.create({
   empty: {
     fontSize: 18,
     color: "gray",
+    textAlign: "center",
+    marginTop: 50,
   },
   card: {
     padding: 15,
