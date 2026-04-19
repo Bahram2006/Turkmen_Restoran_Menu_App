@@ -9,8 +9,18 @@ export const CartProvider = ({ children }: any) => {
     setCart((prev) => [...prev, item]);
   };
 
+  const removeFromCart = (index: number) => {
+    setCart((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const getTotal = () => {
+    return cart.reduce((total, item) => total + item.price, 0);
+  };
+
   return (
-    <CartContext.Provider value={{ cart, addToCart }}>
+    <CartContext.Provider
+      value={{ cart, addToCart, removeFromCart, getTotal }}
+    >
       {children}
     </CartContext.Provider>
   );
