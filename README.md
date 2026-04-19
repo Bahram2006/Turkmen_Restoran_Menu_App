@@ -86,7 +86,7 @@ npx expo start
 
 ## 👨‍💻 Developer
 
-Built with passion by **Your Name**
+Built with passion by **Myradow Bahram**
 
 ---
 
@@ -94,8 +94,8 @@ Built with passion by **Your Name**
 
 If you want a custom mobile app like this:
 
-📧 Email: your@email.com  
-🌐 Portfolio: your-portfolio-link  
+📧 Email: yardam034@gmail.com  
+🌐 Portfolio: Myradow Bahram JavaScript Software Engineer | React Native Mobile App Developer
 
 ---
 
