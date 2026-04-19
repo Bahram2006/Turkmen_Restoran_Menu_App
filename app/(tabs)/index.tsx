@@ -1,4 +1,6 @@
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import { useContext } from "react";
+import { CartContext } from "../../context/CartContext";
 
 const burgers = [
   { id: "1", name: "Whopper", price: 6.99 },
@@ -8,6 +10,8 @@ const burgers = [
 ];
 
 export default function HomeScreen() {
+  const { addToCart } = useContext(CartContext);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>🍔 Burger King</Text>
@@ -22,7 +26,10 @@ export default function HomeScreen() {
             <Text style={styles.name}>{item.name}</Text>
             <Text style={styles.price}>${item.price}</Text>
 
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => addToCart(item)}
+            >
               <Text style={styles.buttonText}>Add to Cart</Text>
             </TouchableOpacity>
           </View>
