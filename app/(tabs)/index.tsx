@@ -7,8 +7,10 @@ import {
   Image,
   Animated,
 } from "react-native";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { CartContext } from "../../context/CartContext";
+
+const categories = ["Burgers", "Drinks", "Desserts"];
 
 const burgers = [
   {
@@ -40,7 +42,8 @@ const burgers = [
 export default function HomeScreen() {
   const { addToCart } = useContext(CartContext);
 
-  const scale = new Animated.Value(1);
+  // 🔥 useRef (IMPORTANT FIX)
+  const scale = useRef(new Animated.Value(1)).current;
 
   const animatePress = () => {
     Animated.sequence([
@@ -62,10 +65,21 @@ export default function HomeScreen() {
       <Text style={styles.title}>🍔 Burger King</Text>
       <Text style={styles.subtitle}>Choose your favorite meal</Text>
 
+      {/* 🔥 CATEGORIES */}
+      <View style={styles.categories}>
+        {categories.map((cat) => (
+          <TouchableOpacity key={cat} style={styles.catBtn}>
+            <Text style={styles.catText}>{cat}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
+      {/* 🔥 BURGER LIST */}
       <FlatList
         data={burgers}
         keyExtractor={(item) => item.id}
         contentContainerStyle={{ paddingTop: 20 }}
+        showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <View style={styles.card}>
             <Image source={item.image} style={styles.image} />
@@ -107,6 +121,24 @@ const styles = StyleSheet.create({
     color: "gray",
     marginTop: 5,
   },
+
+  // 🔥 CATEGORY STYLES
+  categories: {
+    flexDirection: "row",
+    marginTop: 15,
+    gap: 10,
+  },
+  catBtn: {
+    backgroundColor: "#eee",
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    borderRadius: 20,
+  },
+  catText: {
+    fontWeight: "600",
+  },
+
+  // 🔥 CARD
   card: {
     backgroundColor: "#f8f8f8",
     padding: 15,
@@ -128,6 +160,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "green",
   },
+
+  // 🔥 BUTTON
   button: {
     marginTop: 10,
     backgroundColor: "#d62828",
