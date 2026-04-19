@@ -7,42 +7,70 @@ import {
   Image,
   Animated,
 } from "react-native";
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import { CartContext } from "../../context/CartContext";
 
+// 🔥 CATEGORIES
 const categories = ["Burgers", "Drinks", "Desserts"];
 
-const burgers = [
+// 🔥 PRODUCTS (UPDATED)
+const products = [
   {
     id: "1",
     name: "Whopper",
     price: 6.99,
+    category: "Burgers",
     image: require("../../assets/images/whopper.png"),
   },
   {
     id: "2",
     name: "Cheese Burger",
     price: 4.99,
+    category: "Burgers",
     image: require("../../assets/images/cheese.png"),
   },
   {
     id: "3",
     name: "Chicken Burger",
     price: 5.49,
+    category: "Burgers",
     image: require("../../assets/images/chicken.png"),
   },
   {
     id: "4",
     name: "Double King Burger",
     price: 8.99,
+    category: "Burgers",
     image: require("../../assets/images/double.png"),
+  },
+  {
+    id: "5",
+    name: "Cola",
+    price: 2.99,
+    category: "Drinks",
+    image: require("../../assets/images/cola.png"),
+  },
+  {
+    id: "6",
+    name: "Ice Cream",
+    price: 3.49,
+    category: "Desserts",
+    image: require("../../assets/images/icecream.png"),
   },
 ];
 
 export default function HomeScreen() {
   const { addToCart } = useContext(CartContext);
 
-  // 🔥 useRef (IMPORTANT FIX)
+  // 🔥 STATE
+  const [selectedCategory, setSelectedCategory] = useState("Burgers");
+
+  // 🔥 FILTER
+  const filteredProducts = products.filter(
+    (item) => item.category === selectedCategory
+  );
+
+  // 🔥 ANIMATION FIX
   const scale = useRef(new Animated.Value(1)).current;
 
   const animatePress = () => {
@@ -68,15 +96,29 @@ export default function HomeScreen() {
       {/* 🔥 CATEGORIES */}
       <View style={styles.categories}>
         {categories.map((cat) => (
-          <TouchableOpacity key={cat} style={styles.catBtn}>
-            <Text style={styles.catText}>{cat}</Text>
+          <TouchableOpacity
+            key={cat}
+            style={[
+              styles.catBtn,
+              selectedCategory === cat && styles.activeCat,
+            ]}
+            onPress={() => setSelectedCategory(cat)}
+          >
+            <Text
+              style={[
+                styles.catText,
+                selectedCategory === cat && { color: "#fff" },
+              ]}
+            >
+              {cat}
+            </Text>
           </TouchableOpacity>
         ))}
       </View>
 
-      {/* 🔥 BURGER LIST */}
+      {/* 🔥 PRODUCT LIST */}
       <FlatList
-        data={burgers}
+        data={filteredProducts}
         keyExtractor={(item) => item.id}
         contentContainerStyle={{ paddingTop: 20 }}
         showsVerticalScrollIndicator={false}
@@ -105,6 +147,7 @@ export default function HomeScreen() {
   );
 }
 
+// 🔥 STYLES
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -122,7 +165,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
 
-  // 🔥 CATEGORY STYLES
+  // 🔥 CATEGORY
   categories: {
     flexDirection: "row",
     marginTop: 15,
@@ -133,6 +176,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 8,
     borderRadius: 20,
+  },
+  activeCat: {
+    backgroundColor: "#d62828",
   },
   catText: {
     fontWeight: "600",
